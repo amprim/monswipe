@@ -1,4 +1,4 @@
-module doormon
+module monswipe
 
 go 1.19
 
