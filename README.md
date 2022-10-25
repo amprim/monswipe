@@ -14,6 +14,9 @@ As written, `monswipe` expects to run on a Raspberry Pi (tested on a 3B), with w
 
 All wiegand lines should be routed through a 3.3v <-> 5V logic converter, to prevent frying the Pi. Power for the 5V side of the equation can be provided by the Pi's 5V lines - GND must be provided from the Uhppote board (I used the reader GND lines).
 
+### Swipe passthrough 
+GPIO23, GPIO24
+
 ## Usage
 
 `monswipe` exposes three HTTP GET endpoints on `127.0.0.1:8888`.
