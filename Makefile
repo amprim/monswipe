@@ -1,2 +1,4 @@
 build:
-	go build -o ./bin
+	rm ./bin | true
+	mkdir ./bin
+	go build -o ./bin/monswipe .
