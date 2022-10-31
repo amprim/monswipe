@@ -36,7 +36,7 @@ func listen(door int, pin string, channel chan struct{}) {
 	}
 
 	// Set it as input, with an internal pull down resistor:
-	if err := p.In(gpio.PullDown, gpio.FallingEdge); err != nil {
+	if err := p.In(gpio.PullDown, gpio.RisingEdge); err != nil {
 		log.Fatal(err)
 	}
 
