@@ -23,6 +23,8 @@ var readers = [][]string{
 	{"GPIO19", "GPIO26"},
 }
 
+var passthrough = []string{"GPIO23", "GPIO24"}
+
 // Channels for sending cards, in door order.
 var swipeChannels = []chan []int{
 	make(chan []int, 1),
@@ -30,6 +32,8 @@ var swipeChannels = []chan []int{
 	make(chan []int, 1),
 	make(chan []int, 1),
 }
+
+//var currentPassthrough = 1
 
 func writePin(pin gpio.PinIO) {
 	if err := pin.Out(gpio.Low); err != nil {
@@ -59,6 +63,66 @@ func parity(message string) string {
 
 	return l + message + r
 }
+
+/*func readPins(d0 gpio.PinIO, d1 gpio.PinIO) int {
+	for {
+		if d0.WaitForEdge(-1) || d1.WaitForEdge(-1) {
+			if d0.Read() == gpio.Low {
+				println("read 0")
+				return 0
+			} else {
+				println("read 1")
+				return 1
+			}
+		}
+	}
+}*/
+
+// pass through inputs from physical reader
+/*func pass(pins []string) {
+	// Lookup a pin by its number:
+	d0 := gpioreg.ByName(pins[0])
+	d1 := gpioreg.ByName(pins[1])
+	if d0 == nil || d1 == nil {
+		log.Fatalf("Error on passthrough: failed to find D0 and/or D1\n")
+	}
+
+	// Set d0 and d1 as input:
+	if err := d0.In(gpio.PullUp, gpio.FallingEdge); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := d1.In(gpio.PullUp, gpio.FallingEdge); err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("Initialized passthrough reader (pins %s/%s)\n", pins[0], pins[1])
+
+	// Wait for card data, then send:
+	card := make([]int, 26)
+	for {
+		for {
+			if len(card) == 26 {
+				break
+			}
+
+			if d0.WaitForEdge(100*time.Microsecond) || d1.WaitForEdge(100*time.Microsecond) {
+				if d0.Read() == gpio.Low {
+					println("read 0")
+					card = append(card, 0)
+				} else {
+					println("read 1")
+					card = append(card, 1)
+				}
+
+				time.Sleep(2 * time.Millisecond)
+			}
+		}
+
+		log.Printf("passthrough data: %d ", card)
+		card = make([]int, 26)
+	}
+}*/
 
 // send fake reader inputs to the controller
 func send(reader int, pins []string, channel chan []int) {
@@ -181,4 +245,6 @@ func swipeSetup() {
 	for i, pins := range readers {
 		go send(i+1, pins, swipeChannels[i])
 	}
+
+	//go pass(passthrough)
 }
