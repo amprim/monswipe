@@ -14,7 +14,7 @@ func handleRequests() {
 	r.HandleFunc("/door/{door}", readDoor)
 	r.HandleFunc("/door-reset", resetDoors)
 	r.HandleFunc("/swipe/{door}/{fc}/{cn}", swipe)
-	http.ListenAndServe("127.0.0.1:8888", r)
+	http.ListenAndServe("0.0.0.0:8888", r)
 }
 
 func main() {

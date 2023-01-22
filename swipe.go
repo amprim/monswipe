@@ -17,7 +17,7 @@ import (
 // Output pins for each door reader,
 // in door order as D0, D1
 var readers = [][]string{
-	{"GPIO17", "GPIO27"},
+	{"GPIO4", "GPIO27"},
 	{"GPIO22", "GPIO5"},
 	{"GPIO6", "GPIO13"},
 	{"GPIO19", "GPIO26"},
