@@ -1,0 +1,12 @@
+[Unit]
+Description=monswipe
+After=network.target
+
+[Service]
+User=monswipe
+Group=nogroup
+ExecStart=/opt/monswipe
+Type=simple
+
+[Install]
+WantedBy=default.target
